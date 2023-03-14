@@ -1,4 +1,4 @@
-from visualizer import *
+from display import *
 
 def calculate_fk(theta1_num,theta3_num,theta4_num,d2_num,d5_num,a2_num,a3_num):
     
@@ -79,7 +79,6 @@ def calculate_fk(theta1_num,theta3_num,theta4_num,d2_num,d5_num,a2_num,a3_num):
     Link2_sym  = A1 * A2
     Link3_sym  = A1 * A2 * A3
     Link4_sym  = A1 * A2 * A3 * A4 
-    #TODO: FIX THIS LINK CAUSE ORDER IS WRONG
     Link5_sym  = A1 * A2 * A3 * A4 * A5
 
     # Substitution 
@@ -89,13 +88,22 @@ def calculate_fk(theta1_num,theta3_num,theta4_num,d2_num,d5_num,a2_num,a3_num):
     Link4=Link4_sym.subs([(theta1, theta1_num),(a2, a2_num),(d2, d2_num),(theta3, theta3_num), (a3, a3_num),(theta4, theta4_num)]) 
     Link5=Link5_sym.subs([(theta1, theta1_num),(a2, a2_num),(d2, d2_num),(theta3, theta3_num), (a3, a3_num),(theta4, theta4_num),(d5, d5_num)]) 
 
+    # Additional link for geometry
+    LinkA = sp.Matrix  ([[0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 70],
+                        [0, 0, 0, 0]])
+    
     # Save into array
-    Links = [Link1,Link2,Link3,Link4,Link5]
-
-    # Print links
-    for l in Links:
-        print("\n")
-        sp.pprint(l)
+    Links = [Link1,LinkA,Link2,Link3,Link4,Link5] 
+    Del = []
+    
+    # Remove links with the same position cordinates from plotting
+    for i in range(1,len(Links)):
+        if Links[i][0,3] == Links[i-1][0,3] and Links[i][1,3] == Links[i-1][1,3] and Links[i][2,3] == Links[i-1][2,3]:
+            Del.append(i)
+    for d in Del:
+        Links.remove(Links[d])
 
     # Draw 3D plot
     draw_fk(Links)
