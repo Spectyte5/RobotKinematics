@@ -15,7 +15,7 @@ def calculate_fk(links):
         AMatrixes.append(calculateA(l))
 
     # Substitute
-    for i in range(0,len(AMatrixes)-1):
+    for i in range(0,len(AMatrixes)):
         ANum.append(AMatrixes[i].subs([(links[i].symbols[0],links[i].theta), (links[i].symbols[1],links[i].d),
         (links[i].symbols[2],links[i].a),(links[i].symbols[3], links[i].alpha)]))
 
@@ -23,24 +23,6 @@ def calculate_fk(links):
     for An in ANum:
         A *= An
         AFin.append(A)
-
-
-    # Additional link for geometry
-    #LinkA = sp.Matrix  ([[0, 0, 0, 0],
-     #                   [0, 0, 0, 0],
-      #                  [0, 0, 0, 700],
-       #                 [0, 0, 0, 0]])
-    
-    # Save into array <- change name to sth else
-    #Links = [Link1,LinkA,Link2,Link3,Link4,Link5] 
-    #Del = []
-    
-    # Remove links with the same position cordinates from plotting
-    #for i in range(1,len(Links)):
-     #   if Links[i][0,3] == Links[i-1][0,3] and Links[i][1,3] == Links[i-1][1,3] and Links[i][2,3] == Links[i-1][2,3]:
-      #      Del.append(i)
-    #for d in Del:
-     #   Links.remove(Links[d])
 
     # Draw 3D plot
     draw_fk(links, AFin)
@@ -86,8 +68,8 @@ def rotz(theta_val):
     else:
         theta = sp.symbols(theta_val)
 
-    rz = sp.Matrix([[sp.cos(theta), -sp.sin(theta), 0, 0],
-                    [sp.sin(theta),  sp.cos(theta), 0, 0],
+    rz = sp.Matrix([[sp.cos(sp.rad(theta)), -sp.sin(sp.rad(theta)), 0, 0],
+                    [sp.sin(sp.rad(theta)),  sp.cos(sp.rad(theta)), 0, 0],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1]])
     return rz
