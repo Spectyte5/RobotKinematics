@@ -23,7 +23,7 @@
   <ItemGroup>
     <Compile Include="jsonfiles.py" />
     <Compile Include="kinematics.py" />
-    <Compile Include="Link.py" />
+    <Compile Include="robot.py" />
     <Compile Include="main.py" />
     <Compile Include="display.py" />
   </ItemGroup>

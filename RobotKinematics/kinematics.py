@@ -1,6 +1,6 @@
 from display import *
 
-def calculate_fk(links):
+def calculate_fk(robot):
     
     # Initialize printing
     sp.init_printing()
@@ -11,13 +11,13 @@ def calculate_fk(links):
     AFin = []
     A = 1
 
-    for l in links:
+    for l in robot.links:
         AMatrixes.append(calculateA(l))
 
     # Substitute
     for i in range(0,len(AMatrixes)):
-        ANum.append(AMatrixes[i].subs([(links[i].symbols[0],links[i].theta), (links[i].symbols[1],links[i].d),
-        (links[i].symbols[2],links[i].a),(links[i].symbols[3], links[i].alpha)]))
+        ANum.append(AMatrixes[i].subs([(robot.links[i].symbols[0],robot.links[i].theta), (robot.links[i].symbols[1],robot.links[i].d),
+        (robot.links[i].symbols[2],robot.links[i].a),(robot.links[i].symbols[3], robot.links[i].alpha)]))
 
     # Calculate link matrixes
     for An in ANum:
@@ -25,7 +25,14 @@ def calculate_fk(links):
         AFin.append(A)
 
     # Draw 3D plot
-    draw_fk(links, AFin)
+    draw_fk(robot, AFin)
+    
+
+def calculate_ik(links):
+    
+    
+    #for l in links:
+        
 
     # Matrixes for IK
     #T03 = A1*A2*A3
@@ -36,22 +43,16 @@ def calculate_fk(links):
     #Ik_matrixes = [T03v,Tev,p3a]
 
     #return Ik_matrixes
-    
 
-def calculate_ik(Ik_matrixes):
-   
     # marixes from FK
     d5 = sp.symbols("d_5")
-    T03 = Ik_matrixes[0]
-    Te = Ik_matrixes[1]
-    p3a = Ik_matrixes[2]
 
     # position calculation
-    P = sp.Matrix([Te[0,3],Te[1,3],Te[2,3]])
-    Pw = d5 * sp.Matrix([Te[0,2],Te[1,2],Te[2,2]])
-    Pa = P - Pw
-    sp.pprint(P)
-    sp.pprint(Pw)
+    #P = sp.Matrix([Te[0,3],Te[1,3],Te[2,3]])
+    #Pw = d5 * sp.Matrix([Te[0,2],Te[1,2],Te[2,2]])
+    #Pa = P - Pw
+    #sp.pprint(P)
+    #sp.pprint(Pw)
 
 def calculateA(link):
 

@@ -1,7 +1,10 @@
 from kinematics import *
 from jsonfiles import *
 
-links=load_json()
-#fk_result=calculate_fk(fk_variables)
-calculate_fk(links)
-#calculate_ik(fk_result)
+# load data from the file
+robot=load_json()
+# calculate forward and inverse kinematics
+if robot.fk:
+    calculate_fk(robot)
+if robot.ik:
+    calculate_ik(robot)

@@ -1,3 +1,18 @@
+from kinematics import *
+
+class Robot:
+
+    def __init__(self,links,dof,fk,ik):
+        self.links = links
+        self.dof = dof
+        self.fk = fk
+        self.ik = ik
+    def __str__(self):
+        result = f"Robot with:\n DOF:{self.dof}\n CalculateFK:{self.fk}\n CalculateIK:{self.ik} \n Links:"
+        for l in self.links:
+            result += str(l)
+        return result
+
 class Link:
 
     def __init__(self,theta, d, a, alpha, index):
@@ -16,5 +31,5 @@ class Link:
             self.symbols[3]="alpha_" + "%s" %index
 
     def __str__(self):
-        return f"Link with Symbols:{self.symbols} and Values:[{self.theta},{self.d},{self.a},{self.alpha}]"
+        return f"\n  Link with Symbols:{self.symbols} and Values:[{self.theta},{self.d},{self.a},{self.alpha}]"
 

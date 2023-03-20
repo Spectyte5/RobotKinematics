@@ -1,13 +1,8 @@
-import math
 import sympy as sp
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-def draw_fk(links, AFin):
-
-    # initial degrees of fredom
-    cnt = 0
-    dof = 0
+def draw_fk(robot, AFin):
 
     # create plot
     fig = plt.figure()
@@ -38,29 +33,7 @@ def draw_fk(links, AFin):
         vq += (ydir,)
         wq += (zdir,)  
 
-
     # plot joints
-    #for x, y, z in zip(xs, ys, zs):
-     #   if dof == 0:
-      #      ax.scatter(x,y,z,s=100,marker="s",color='k')
-       #     var = '(%s = %s)' % (Variables[cnt], Values[cnt])
-        #elif dof == len(Links)-1:
-         #   ax.scatter(x,y,z,s=50,marker="s",color='k')
-          #  var = '(%s = %s)' % (Variables[cnt], Values[cnt])
-           # dof -= 1
-        #elif dof == 1 or dof == 2:
-         #   var = '(%s = %s)' % (Variables[cnt], Values[cnt])
-          #  cnt += 1
-           # var2 = '(%s = %s)' % (Variables[cnt], Values[cnt])
-            #ax.text(x-100,y-100,z-100, var2)
-        #else:
-         #   ax.scatter(x,y,z,s=50,color='k')
-          #  var = '(%s = %s)' % (Variables[cnt], Values[cnt])
-        #label = '(%d, %d, %d)' % (x, y, z)
-        #ax.text(x, y, z, label)
-        #ax.text(x+100,y+100,z+100, var)
-        #dof += 1
-        #cnt += 1
     for x, y, z in zip(xs, ys, zs):
         ax.scatter(x,y,z,s=50,color='k')
         label = '(%d, %d, %d)' % (x, y, z)
@@ -76,7 +49,7 @@ def draw_fk(links, AFin):
     ax.set_zlabel('z')
 
     # display plot
-    plt.suptitle("Forward Kinematics of the Robotic arm with %s DOF" %dof)
+    plt.suptitle("Forward Kinematics of the Robotic arm with %s DOF" %robot.dof)
     plt.savefig('./Plots/Robot_FK.png')
     plt.show()
     
