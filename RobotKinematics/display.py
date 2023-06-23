@@ -1,8 +1,7 @@
 import sympy as sp
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
-def draw_fk(robot, AFin):
+def draw_fk(robot):
 
     # create plot
     fig = plt.figure()
@@ -13,21 +12,21 @@ def draw_fk(robot, AFin):
     xq = yq = zq = uq = vq = wq = ()
  
     # joints cordinates
-    for A in AFin:
+    for A in robot.fkresult:
         xs += (A[0,3],)
         ys += (A[1,3],)
         zs += (A[2,3],)  
 
     # link cordinates
-    for i in range(1,len(AFin)):
+    for i in range(1,len(robot.fkresult)):
         # inital point of the vector
-        xq += (AFin[i-1][0,3],)
-        yq += (AFin[i-1][1,3],)
-        zq += (AFin[i-1][2,3],) 
+        xq += (robot.fkresult[i-1][0,3],)
+        yq += (robot.fkresult[i-1][1,3],)
+        zq += (robot.fkresult[i-1][2,3],) 
         # calculate change of position
-        xdir = AFin[i][0,3]-AFin[i-1][0,3]
-        ydir = AFin[i][1,3]-AFin[i-1][1,3]
-        zdir = AFin[i][2,3]-AFin[i-1][2,3]
+        xdir = robot.fkresult[i][0,3]-robot.fkresult[i-1][0,3]
+        ydir = robot.fkresult[i][1,3]-robot.fkresult[i-1][1,3]
+        zdir = robot.fkresult[i][2,3]-robot.fkresult[i-1][2,3]
         # direction of the vector
         uq += (xdir,)
         vq += (ydir,)

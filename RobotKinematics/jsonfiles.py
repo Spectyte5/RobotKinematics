@@ -2,15 +2,13 @@ import json
 from robot import *
 
 def load_json(): 
-    with open('./Json/lab.json') as user_file:
+    with open('./Json/robot.json') as user_file:
         ufile = user_file.read()
     parsed_json = json.loads(ufile)
     
     #read data
     json_links=parsed_json["Robot"]["Links"]
     dof = parsed_json["Robot"]["DOF"]
-    fk = parsed_json["Robot"]["Forward"]
-    ik = parsed_json["Robot"]["Inverse"]
     Links = []
    
     for link in json_links:
@@ -18,9 +16,8 @@ def load_json():
         Links.append(L)
 
     # create robot object
-    robot=Robot(Links,dof,fk,ik)
+    robot=Robot(Links,dof)
     print(robot)
-
     return robot
 
 def checkifzero(iter) :

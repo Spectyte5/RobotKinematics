@@ -1,4 +1,5 @@
 from display import *
+import numpy as np
 
 def calculate_fk(robot):
     
@@ -8,7 +9,6 @@ def calculate_fk(robot):
     # Arrays for matrixes
     AMatrixes=[]
     ANum = []
-    AFin = []
     A = 1
 
     for l in robot.links:
@@ -22,37 +22,48 @@ def calculate_fk(robot):
     # Calculate link matrixes
     for An in ANum:
         A *= An
-        AFin.append(A)
-
-    # Draw 3D plot
-    draw_fk(robot, AFin)
+        robot.fkresult.append(A)
     
-
-def calculate_ik(links):
+    # print fk result
+    print('Fk Result:')
+    sp.pprint(robot.fkresult[-1])
     
+    # return for tests
+    return robot.fkresult[-1]
+
+def calculate_ik(robot):
     
-    #for l in links:
-        
+    # number of joints
+    num_joints = len(robot.links)
+    # the joint angles
+    q = np.zeros(num_joints)
 
-    # Matrixes for IK
-    #T03 = A1*A2*A3
-    #Te = A4*A5
-    #p3a = sp.Matrix([0,0,0,1])
-    #T03v=T03.subs([(theta1, 'q_1'),(theta3, 'q_3')])
-    #Tev=Te.subs([(theta4, 'q_1'),(theta3, 'q_3')])
-    #Ik_matrixes = [T03v,Tev,p3a]
+    # Extract the desired end-effector position and orientation
+    desired_position = robot.iktarget[:3, 3]
+    desired_orientation = robot.iktarget[:3, :3]
 
-    #return Ik_matrixes
+    # Calculate the wrist position
+    wrist_position = desired_position - np.dot(desired_orientation, np.array([0, 0, robot.links[-1].d]))
 
-    # marixes from FK
-    d5 = sp.symbols("d_5")
+    # Calculate the first joint angle (theta1)
+    q[0] = np.arctan2(wrist_position[1], wrist_position[0])
 
-    # position calculation
-    #P = sp.Matrix([Te[0,3],Te[1,3],Te[2,3]])
-    #Pw = d5 * sp.Matrix([Te[0,2],Te[1,2],Te[2,2]])
-    #Pa = P - Pw
-    #sp.pprint(P)
-    #sp.pprint(Pw)
+    # Calculate the joint angles using the position vector and orientation matrix
+    for i in range(1, num_joints):
+        distance = np.sqrt(wrist_position[0]**2 + wrist_position[1]**2)
+        height = wrist_position[2] - robot.links[i-1].d
+        q[i] = np.arctan2(height, distance) - np.arctan2(robot.links[i-1].d, np.sqrt(robot.links[i-1].a**2 + robot.links[i].d**2))
+        wrist_position = wrist_position - robot.links[i-1].a * np.dot(desired_orientation, np.array([np.cos(q[i]), np.sin(q[i]), 0]))
+
+    # convert from radians to degrees
+    q = np.degrees(q)
+
+    print("IK result")
+    for i in range(len(q)):
+        print(f"q{i+1}: {q[i]} degrees")
+
+    return q
+
 
 def calculateA(link):
 

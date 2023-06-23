@@ -2,13 +2,14 @@ from kinematics import *
 
 class Robot:
 
-    def __init__(self,links,dof,fk,ik):
+    def __init__(self,links,dof):
         self.links = links
         self.dof = dof
-        self.fk = fk
-        self.ik = ik
+        self.fkresult = []
+
     def __str__(self):
-        result = f"Robot with:\n DOF:{self.dof}\n CalculateFK:{self.fk}\n CalculateIK:{self.ik} \n Links:"
+        result = f"Robot with:\n DOF:{self.dof}\n"
+        result += "\n Links:"
         for l in self.links:
             result += str(l)
         return result

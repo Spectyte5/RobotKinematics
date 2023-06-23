@@ -2,18 +2,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>de3a68f7-f6c5-4afe-bb5f-7be0de93514f</ProjectGuid>
+    <ProjectGuid>152aca51-8fb3-42c0-8378-1e3db589bace</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>main.py</StartupFile>
+    <StartupFile>Test_Kinematics.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>RobotKinematics</Name>
-    <RootNamespace>RobotKinematics</RootNamespace>
-    <TestFramework>pytest</TestFramework>
-    <UnitTestPattern>test*.py</UnitTestPattern>
-    <UnitTestRootDirectory>.</UnitTestRootDirectory>
+    <Name>Test_Kinematics</Name>
+    <RootNamespace>Test_Kinematics</RootNamespace>
+    <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,11 +22,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="jsonfiles.py" />
-    <Compile Include="kinematics.py" />
-    <Compile Include="robot.py" />
-    <Compile Include="main.py" />
-    <Compile Include="display.py" />
     <Compile Include="Test_Kinematics.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
