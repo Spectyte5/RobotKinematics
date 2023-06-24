@@ -31,40 +31,6 @@ def calculate_fk(robot):
     # return for tests
     return robot.fkresult[-1]
 
-def calculate_ik(robot):
-    
-    # number of joints
-    num_joints = len(robot.links)
-    # the joint angles
-    q = np.zeros(num_joints)
-
-    # Extract the desired end-effector position and orientation
-    desired_position = robot.iktarget[:3, 3]
-    desired_orientation = robot.iktarget[:3, :3]
-
-    # Calculate the wrist position
-    wrist_position = desired_position - np.dot(desired_orientation, np.array([0, 0, robot.links[-1].d]))
-
-    # Calculate the first joint angle (theta1)
-    q[0] = np.arctan2(wrist_position[1], wrist_position[0])
-
-    # Calculate the joint angles using the position vector and orientation matrix
-    for i in range(1, num_joints):
-        distance = np.sqrt(wrist_position[0]**2 + wrist_position[1]**2)
-        height = wrist_position[2] - robot.links[i-1].d
-        q[i] = np.arctan2(height, distance) - np.arctan2(robot.links[i-1].d, np.sqrt(robot.links[i-1].a**2 + robot.links[i].d**2))
-        wrist_position = wrist_position - robot.links[i-1].a * np.dot(desired_orientation, np.array([np.cos(q[i]), np.sin(q[i]), 0]))
-
-    # convert from radians to degrees
-    q = np.degrees(q)
-
-    print("IK result")
-    for i in range(len(q)):
-        print(f"q{i+1}: {q[i]} degrees")
-
-    return q
-
-
 def calculateA(link):
 
     A1=rotz(link.symbols[0])
